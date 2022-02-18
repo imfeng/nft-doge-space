@@ -1,0 +1,18 @@
+@import '~@/scss/foundation/config';
+
+
+@media only screen and (max-width: 860px) {
+    body {
+        padding-bottom: $bottom-control-height;
+    }
+
+    .desktop {
+        display: none!important;
+    }
+    .mobile {
+        display: initial!important;
+    }
+}
+@media only screen and (min-width: 861px) {
+    
+}

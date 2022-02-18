@@ -1,0 +1,15 @@
+@import '~@/scss/foundation/config';
+.flight {
+    animation:flight 2s ease-in-out infinite;
+}
+@keyframes flight{
+    0% {
+        top: -50px;
+    }
+    50% {
+        top: -70px;
+    }
+    100% {
+        top: -50px;
+    }
+}
