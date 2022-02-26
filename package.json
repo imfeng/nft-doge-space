@@ -33,6 +33,7 @@
     "vue-screen": "^2.1.0-beta.1",
     "vue3-burger-menu": "^1.1.1",
     "vue3-carousel": "^0.1.35",
+    "vue3-flip-countdown": "^0.1.6",
     "vue3-marquee": "^2.0.2-beta",
     "walletlink": "^2.4.4"
   },

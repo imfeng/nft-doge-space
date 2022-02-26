@@ -156,6 +156,8 @@ const doMint = () => {
       &.mint-wrapper-controller {
         display: flex;
         flex-direction: column;
+        height: 40%;
+        max-width: 330px;
         .comment {
             text-align: center;
             font-size: 1.5rem;
@@ -181,8 +183,9 @@ const doMint = () => {
           }
 
           &.active {
-              color: #2d2d2d;
-                background-color: #FFE817;
+              color: #d2d2d2;
+              font-size: 2rem;
+                background-color: #ffff0091;
           }
             &.message {
                 font-size: 1.3rem;

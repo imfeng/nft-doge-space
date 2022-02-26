@@ -14,7 +14,8 @@
         "source.fixAll": true,
         "source.fixAll.stylelint": true
     },
-    "stylelint.validate": [ "css", "less", "postcss", "scss", "vue", "sass" ],
+    "stylelint.validate": ["css", "scss"],
+    
     "files.associations": {
         ".env.*": "dotenv"
     },

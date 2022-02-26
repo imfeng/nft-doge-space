@@ -37,6 +37,7 @@ import { GlobalStore } from '@/store/GlobalStore';
     $boder-color: rgba(254, 243, 255, 0.75);
     color: rgb(254, 240, 255);
     position: fixed;
+    z-index: 100;
     bottom: 0;
     width: 100%;
     // background: rgba(255, 255, 255, 0.187);

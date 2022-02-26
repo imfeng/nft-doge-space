@@ -46,8 +46,12 @@ body {
     // height: 100%;
     background-color: $bg-color;
     color: $primary-color-1;
-    font-size: 12px;
+    font-size: 13px;
     font-family: "Roblox", Roboto, "Browallia New", sans-serif;
+    img {
+        max-height: 100%;
+        max-width: 100%;
+    }
 }
 .font-origintech {
     font-family: "OriginTech", Roboto, "Browallia New", sans-serif;
@@ -57,6 +61,9 @@ body {
 }
 
 section {
+    h1.title {
+        position: absolute;
+    }
     position: relative;
     width: 100%;
     padding: 2rem;
@@ -168,3 +175,123 @@ section {
         }
     }
 }
+
+
+
+.btn-scifi {
+    color: rgba(255, 255, 255, .7);
+    font-family: 'Titillium Web', sans-serif;
+    font-weight: 600;
+    letter-spacing: 2px;
+    font-size: 18px;
+    line-height:18px;
+    padding: 16px 24px;
+    background-color:rgba(22, 199, 158, 1);
+
+    box-shadow: 0px 0px 30px 0.1px rgba(22, 199, 158, 0.7);
+    position: relative;
+    z-index: 5;
+    transition: all .2s cubic-bezier(.17,.67,.83,.67);
+    text-transform: uppercase;
+    margin: 25px 20px;
+      border-radius: 2px;
+      
+  
+  &::after{
+    background-color: rgba(22, 199, 158, .5);
+    content:"";
+    display: block;
+    position: absolute;
+    height:140%;
+    width: 120%;
+    left: -10%;
+    top:-20%;
+    z-index: -1;
+    transition: all .2s cubic-bezier(.17,.67,.83,.67);
+    transition-delay: .1s;
+      border-radius: 2px;
+  }
+  
+  &::before{
+    background-color: transparent;
+    content:"";
+    border: 1px solid rgb(22, 199, 158);
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    top:0;
+    left:0;
+    z-index: -1;
+    transition: all .3s cubic-bezier(.17,.67,.83,.67);
+    box-shadow: 0px 0px 30px 0.1px rgba(22, 199, 158, 0.1);
+    border-radius: 2px;
+  }
+  
+  &:hover {
+    cursor: pointer;
+    transform: scale(1.4);
+    color: rgba(255, 255, 255, 1);
+    &::after{
+      width: 100%;
+      height: 100%;
+      top:0;
+      left:0;
+    }
+    &::before {
+      opacity: .5;
+      height:140%;
+      width: 120%;
+      left: -10%;
+      top:-20%;
+    }
+  }
+  
+
+  }
+    
+
+  
+select {
+    /* Reset Select */
+    appearance: none;
+    outline: 0;
+    border: 0;
+    box-shadow: none;
+    /* Personalize */
+    flex: 1;
+    padding: 0 1em;
+    color: #fff;
+    background: #2c3e50;
+    // background-image: none;
+    cursor: pointer;
+  }
+  /* Remove IE arrow */
+select::-ms-expand {
+    display: none;
+  }
+  /* Custom Select wrapper */
+  .select {
+    position: relative;
+    display: flex;
+    width: 20em;
+    height: 3em;
+    border-radius: .25em;
+    overflow: hidden;
+  }
+  /* Arrow */
+  .select::after {
+    content: '\25BC';
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 1em;
+    background-color: #34495e;
+    transition: .25s all ease;
+    pointer-events: none;
+  }
+  /* Transition */
+  .select:hover::after {
+    color: #ff3def;
+  }
