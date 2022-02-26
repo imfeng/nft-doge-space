@@ -3,23 +3,24 @@
         <h1 class="title">
             mint
         </h1>
-        <div class="mint-box">
-            <div class="mint-wrapper">
-                <h3 class="title mobile">
-                    HEX NFT
-                </h3>
-                <div class="nft-gallery">
-                    <img
-                        class="flight-white"
-                        v-bind:src="require('@/assets/images/gifhexdoge.gif')"
-                        alt="gifhexdoge.gif"
-                    >
-                </div>
-                <h4 class="title font-blackopsone">
-                    2131 / 6666
-                </h4>
-                <hr>
-                <div class="price-info-box font-blackopsone">
+        <div class="content">
+            <div class="mint-box">
+                <div class="mint-wrapper">
+                    <h3 class="title mobile">
+                        HEX NFT
+                    </h3>
+                    <div class="nft-gallery">
+                        <img
+                            class="flight-white"
+                            v-bind:src="require('@/assets/images/gifhexdoge.gif')"
+                            alt="gifhexdoge.gif"
+                        >
+                    </div>
+                    <h4 class="title font-blackopsone">
+                        2131 / 6666
+                    </h4>
+                    <hr>
+                    <div class="price-info-box font-blackopsone">
                     <!-- <p class="mint-price">
                             Genesis price: <span class="price">0.05 ETH</span> (Sep. 2021)
                         </p> -->
@@ -29,64 +30,65 @@
                     <p class="mint-price">
                         Public sale: <span class="price">TBD</span>
                     </p> -->
+                    </div>
                 </div>
-            </div>
-            <div class="mint-wrapper mint-wrapper-controller font-blackopsone">
-                <div class="info-box">
-                    <p>
-                        {{ mintNum }} HEXNFT {{ currentPrice }} ETH
-                    </p>
-                </div>
-                <div class="mint-input-box info-box">
-                    <button v-on:click="mintNumController(-1)" class="decrease">
-                        <SvgIcon
-                            v-bind:iconName="'icon-minus'"
-                            class="icon-svg"
-                        ></SvgIcon>
-                    </button>
+                <div class="mint-wrapper mint-wrapper-controller font-blackopsone">
+                    <div class="info-box">
+                        <p>
+                            {{ mintNum }} HEXNFT {{ currentPrice }} ETH
+                        </p>
+                    </div>
+                    <div class="mint-input-box info-box">
+                        <button v-on:click="mintNumController(-1)" class="decrease">
+                            <SvgIcon
+                                v-bind:iconName="'icon-minus'"
+                                class="icon-svg"
+                            ></SvgIcon>
+                        </button>
 
-                    <input
-                        v-model="mintNum"
-                        min="0"
-                        max="20"
-                        type="number"
-                        class="input-mint-num"
+                        <input
+                            v-model="mintNum"
+                            min="0"
+                            max="20"
+                            type="number"
+                            class="input-mint-num"
+                        >
+                        <button v-on:click="mintNumController(1)" class="increase">
+                            <SvgIcon
+                                v-bind:iconName="'icon-plus'"
+                                class="icon-svg"
+                            ></SvgIcon>
+                        </button>
+                    </div>
+                    <div
+                        v-if="!active"
+                        v-on:click="connectWallet"
+                        class="active info-box"
                     >
-                    <button v-on:click="mintNumController(1)" class="increase">
-                        <SvgIcon
-                            v-bind:iconName="'icon-plus'"
-                            class="icon-svg"
-                        ></SvgIcon>
-                    </button>
-                </div>
-                <div
-                    v-if="!active"
-                    v-on:click="connectWallet"
-                    class="active info-box"
-                >
 
-                    <p>CONNECT WALLET</p>
-                </div>
-                <div
-                    v-else
-                    class="active info-box"
-                >
-                    <button class="pluto-button connect-button" v-on:click="doMint">
-                        MINT
-                    </button>
-                </div>
-                <div
-                    v-if="active"
-                    class="comment message"
-                >
-                    <p>Address: {{ shortenAddress(account) }}</p>
-                </div>
+                        <p>CONNECT WALLET</p>
+                    </div>
+                    <div
+                        v-else
+                        class="active info-box"
+                    >
+                        <button class="pluto-button connect-button" v-on:click="doMint">
+                            MINT
+                        </button>
+                    </div>
+                    <div
+                        v-if="active"
+                        class="comment message"
+                    >
+                        <p>Address: {{ shortenAddress(account) }}</p>
+                    </div>
                 <!-- <div
                         class="info-box message succeed"
                     >
 
                         <p>Succeed!</p>
                     </div> -->
+                </div>
             </div>
         </div>
     </section>

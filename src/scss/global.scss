@@ -77,6 +77,16 @@ section {
     h4.title {
         font-size: 2.5rem;  
     }
+    & > .content {
+        padding-bottom: 120px;
+        position: relative;
+        z-index: 1;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
 }
 
 .container {
@@ -293,5 +303,5 @@ select::-ms-expand {
   }
   /* Transition */
   .select:hover::after {
-    color: #ff3def;
+    color: #fa53ec;
   }

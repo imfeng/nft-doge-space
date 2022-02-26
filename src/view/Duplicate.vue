@@ -19,7 +19,17 @@
                         </select>
                     </div>
                     <div class="nft-box">
-                        <img class="flight" v-bind:src="require('@/assets/images/HEX_01a.png')">
+                        <img
+                            v-if="!currentNft"
+                            class="flight"
+                            v-bind:src="require('@/assets/images/HEX_01a.png')"
+                        >
+                        <img
+                            v-else
+                            class="flight-white"
+                            v-bind:src="currentNft.image"
+                        >
+
                     </div>
                 </div>
                 <div class="wrapper wrapper-right card">
@@ -35,9 +45,32 @@
                         </div>
 
                         <div class="control-box">
-                            <button class="btn-scifi">
+                            <button
+                                v-if="currentNft.status === 'live'"
+                                v-on:click="doDuplicate"
+                                class="btn-scifi"
+                            >
                                 Do Duplicate
                             </button>
+                            <button v-if="currentNft.status === 'dupicate_done'" class="btn-scifi">
+                                Claim All
+                            </button>
+                            <template
+                                v-if="currentNft.status === 'duplicating'"
+                            >
+                                <p class="comment">
+                                    Duplicating......
+                                </p>
+                                <Countdown v-bind:deadlineDate="currentNft.deadlineDate" mainColor="#fa53ec" />
+                            </template>
+                            <template
+                                v-if="currentNft.status === 'broken'"
+                            >
+                                <p class="comment comment-error">
+                                    Oh... Your HEX #{{ currentNft.id }} got broken.
+                                </p>
+                            </template>
+                            <!-- {{ currentNft.status }} -->
 
                         </div>
                     </div>
@@ -51,26 +84,56 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import NavSocial from '@/components/NavSocial.vue';
-import { i18n } from '@/locales/i18n';
-import Duplicate from '@/view/Duplicate.vue';
+import { Countdown } from 'vue3-flip-countdown';
+const statusList: string[] = ['live', 'duplicating', 'dupicate_done', 'broken', ];
 type HexNftType = {
     id: number;
-  status: 'live' | 'dup' | 'combine' | 'destroy';
+  status: 'live' | 'duplicating' | 'dupicate_done' | 'broken';
   DuplicateDuration: number;
 SuccessRate: number;
 EnergyEarn: number;
+image: string;
+deadlineDate: Date | null,
 };
 const myNfts = ref<HexNftType[]>([]);
 const currentNft = ref<HexNftType | null>(null);
 myNfts.value = new Array(6).fill(0).map((_, i) => ({
   id: Math.round(Math.random() * 1000) + 1,
-  status: 'lock',
-  DuplicateDuration: (Math.round(Math.random() * 1000) + 1),
+  status: getRandomFromArray(statusList),
+  DuplicateDuration: (Math.round(Math.random() * 10) + 1),
   SuccessRate: (Math.round(Math.random() * 100) + 1),
   EnergyEarn: (Math.round(Math.random() * 10000) + 1000),
+  image: require(`@/assets/images/hex/${Math.round(Math.random() * 6) + 1}.png`),
+  deadlineDate: null,
 }) as unknown as HexNftType);
 currentNft.value = myNfts.value[0];
+
+const doDuplicateDone = () => {
+  if (currentNft.value) {
+    currentNft.value.status = 'dupicate_done';
+  }
+};
+const doClaimAll = () => {
+  if (currentNft.value) {
+    currentNft.value.status = 'live';
+  }
+};
+const doDuplicate = () => {
+  if (currentNft.value) {
+    currentNft.value.status = 'duplicating';
+    currentNft.value.deadlineDate = new Date(Date.now() + currentNft.value.DuplicateDuration * 1000);
+    setTimeout(() => {
+      doDuplicateDone();
+    });
+  }
+};
+const goFixing = () => {
+
+};
+
+function getRandomFromArray(arr: any[]) {
+  return arr[Math.floor(Math.random() * arr.length)];
+}
 </script>
 
 <style lang="scss">
@@ -79,14 +142,7 @@ currentNft.value = myNfts.value[0];
       background-size: cover;
 
     .content {
-        padding-bottom: 120px;
-        position: relative;
-        z-index: 1;
-        height: 100vh;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
+
         p {
             font-size: 2rem;
             line-height: 1.5;
@@ -125,6 +181,9 @@ currentNft.value = myNfts.value[0];
             }
             .control-box {
                 text-align: center;
+                .comment-error {
+                    color: #fb3333;
+                }
             }
         }
         .wrapper-left {
