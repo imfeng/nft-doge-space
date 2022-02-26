@@ -4,14 +4,17 @@
     "editor.suggest.snippetsPreventQuickSuggestions": false,
     "prettier.vueIndentScriptAndStyle": false,
     "prettier.enable": false,
+    "stylelint.autoFixOnSave": true,
     "javascript.validate.enable": false,    // use eslint validate
     "typescript.preferences.importModuleSpecifier": "non-relative",
     "[scss]": {
         "editor.formatOnSave": true,
     },
     "editor.codeActionsOnSave": {
-        "source.fixAll": true
+        "source.fixAll": true,
+        "source.fixAll.stylelint": true
     },
+    "stylelint.validate": [ "css", "less", "postcss", "scss", "vue", "sass" ],
     "files.associations": {
         ".env.*": "dotenv"
     },
@@ -31,5 +34,5 @@
         "typescript",
         "vue"
     ],
-    "volar.tsPlugin": true
+    "volar.tsPlugin": true,
 }

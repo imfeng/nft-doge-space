@@ -11,12 +11,23 @@
     left: $left * $bg-home-size-rate;
 }
 @font-face {
-    font-family: 'Unifont';
-    src: local('Unifont'),
-    url('~@/assets/font/UnifontMedium.woff2') format('woff2'),
-    url('~@/assets/font/UnifontMedium.woff') format('woff'),
-    url('~@/assets/font/UnifontMedium.ttf') format('truetype');
+    font-family: 'OriginTech';
+    src: local('OriginTech'),
+    // url('~@/assets/font/UnifontMedium.woff2') format('woff2'),
+    // url('~@/assets/font/UnifontMedium.woff') format('woff'),
+    url('~@/assets/font/OriginTech personal use.ttf') format('truetype');
+    
     font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Roblox';
+    src: local('Roblox'),
+    // url('~@/assets/font/UnifontMedium.woff2') format('woff2'),
+    // url('~@/assets/font/UnifontMedium.woff') format('woff'),
+    url('~@/assets/font/Roblox Font Regular.ttf') format('truetype');
+    font-weight: 300;
     font-style: normal;
     font-display: swap;
 }
@@ -36,11 +47,18 @@ body {
     background-color: $bg-color;
     color: $primary-color-1;
     font-size: 12px;
-    font-family: "Unifont", Roboto, "Browallia New", sans-serif;
+    font-family: "Roblox", Roboto, "Browallia New", sans-serif;
+}
+.font-origintech {
+    font-family: "OriginTech", Roboto, "Browallia New", sans-serif;
+}
+.font-roblox {
+    font-family: "Roblox", Roboto, "Browallia New", sans-serif;
 }
 
 section {
     width: 100%;
+    padding: 2rem;
 }
 
 .container {
@@ -122,7 +140,7 @@ section {
 }
 .section-footer {
     .bottom-image {
-        background-image: url('~@/assets/bg-bottom.png');
+
         height: 25px;
     }
 

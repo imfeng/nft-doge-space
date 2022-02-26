@@ -7,9 +7,9 @@
             <li>
                 <a target="_blank" href=""><SvgIcon v-bind:iconName="'icon-twitter'" class="icon-svg icon-twitter"></SvgIcon></a>
             </li>
-            <li>
+            <!-- <li>
                 <a target="_blank" href=""><SvgIcon v-bind:iconName="'icon-instagram'" class="icon-svg icon-instagram"></SvgIcon></a>
-            </li>
+            </li> -->
             <li>
                 <a target="_blank" href=""><SvgIcon v-bind:iconName="'icon-dc'" class="icon-svg icon-dc"></SvgIcon></a>
             </li>

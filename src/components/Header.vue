@@ -1,7 +1,7 @@
 <template>
     <section class="section-header">
         <header>
-            <div class="nav-top container">
+            <!-- <div class="nav-top container">
                 <div class="content">
                     <NavSocial class="desktop"></NavSocial>
                     <div class="dropdown-box">
@@ -16,7 +16,7 @@
                         </select>
                     </div>
                 </div>
-            </div>
+            </div> -->
             <nav class="nav-main container">
                 <div class="content content-nav">
                     <ul v-if="!isMobile" class="nav-box-left nav-box">
@@ -29,18 +29,25 @@
                             <li>{{ i18n.t('HEADER_ROADMAP') }}</li></RouterLink>
                         <RouterLink class="link-fixed" v-bind:to="getUrl('/#team')">
                             <li>{{ i18n.t('HEADER_TEAM') }}</li></RouterLink>
+                        <RouterLink v-bind:to="getUrl('/mint')">
+                            <li>{{ i18n.t('HEADER_MINT') }}</li>
+                        </RouterLink>
+                        <RouterLink v-bind:to="getUrl('/mint')">
+                            <li>{{ i18n.t('DUPLICATE') }}</li>
+                        </RouterLink>
+                        <RouterLink v-bind:to="getUrl('/mint')">
+                            <li>{{ i18n.t('COMBINE') }}</li>
+                        </RouterLink>
                     </ul>
-                    <div class="logo-box">
+                    <!-- <div class="logo-box">
                         <RouterLink v-bind:to="getUrl('/')">
                         </RouterLink>
-                    </div>
+                    </div> -->
                     <ul v-if="!isMobile" class="nav-box-right nav-box">
                         <!-- <li v-for="(item, idx) in navMainRightList" v-bind:key="idx">
                             {{ item.title }}
                         </li> -->
-                        <RouterLink v-bind:to="getUrl('/mint')">
-                            <li>{{ i18n.t('HEADER_MINT') }}</li>
-                        </RouterLink>
+
                         <li v-if="!active" v-on:click="connectWallet">
                             <div class="connect-button">
                                 <p>- {{ i18n.t('HEADER_CONNECT') }} -</p>
@@ -51,7 +58,7 @@
                             v-on:click="connectWallet"
                             class="wallet-profile"
                         >
-                            {{ account }}
+                            {{ shortenAddress(account) }}
                         </li>
                         <!-- <RouterLink>
 
@@ -89,7 +96,7 @@
                             v-on:click="connectWallet"
                             class="wallet-profile"
                         >
-                            {{ account }}
+                            {{ shortenAddress(account) }}
                         </li>
                     </Menu>
                 </div>
@@ -101,6 +108,7 @@
 <script setup lang="ts">
 import { RouterLink } from 'vue-router';
 import { Slide as Menu } from 'vue3-burger-menu'; // import the CSS transitions you wish to use, in this case we are using `Slide`
+import { shortenAddress } from '../ethers/utils/format';
 import NavSocial from '@/components/NavSocial.vue';
 import { i18n, languageFileMap, currentLocale } from '@/locales/i18n';
 import { getUrl } from '@/routes';
@@ -121,7 +129,7 @@ const { isMobile, } = GlobalStore;
     .wallet-profile {
         border: 2px solid $primary-color-1;
         border-radius: 10px;
-        max-width: 110px;
+        max-width: 190px;
         overflow: hidden;
         text-overflow : ellipsis;
 
@@ -166,25 +174,47 @@ const { isMobile, } = GlobalStore;
 
     .nav-main {
         height: 96px;
-        border-bottom: 4px solid $primary-color-1;
+        // background-color: #0a2231;
+
+        border-bottom: 1px solid $primary-color-1;
         display: flex;
         align-items: center;
         justify-content: center;
 
-        .content {
+        & > .content {
+            padding: 0;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
         .nav-box {
+            & > a {
+                // display: flex;
+                // align-items: center;
+            }
+            &.nav-box-right {
+                width: 20%;
+            }
+            .connect-button {
+                float: right;
+                width: 190px;
+                vertical-align: middle;
+                border: 1px solid $primary-color-1;
+                line-height: 2%;
+                padding: 1rem 0;
+            }
             .link-fixed {
                 color: $primary-color-1!important;
             }
             &.nav-box-left,
             &.nav-box-right {
-                width: 33%;
+
                 justify-content: space-between;
+            }
+            &.nav-box-left {
+                width: 70%;
+
             }
         }
 
@@ -269,6 +299,8 @@ const { isMobile, } = GlobalStore;
                 a, .nav-box {
                     border-bottom: 2px dashed $primary-color-3;
                     &.connect-button-box {
+
+                        line-height: 2;
                         border: none;
                         width: 100%;
                         margin: 1.5rem auto;

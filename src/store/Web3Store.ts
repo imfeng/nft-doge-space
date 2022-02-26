@@ -26,8 +26,9 @@ const useWeb3Store = defineStore('Web3Store', () => {
   watch(etherProvider, async(newVal) => {
     if (etherProvider.value) {
       const signer = etherProvider.value.getSigner();
+      console.log('etherProvider.value', etherProvider.value);
+      // etherProvider.value.getTransaction();
       // ExampleContract.value = new Contract(contractAddress, contractAbi, signer);
-
     }
   });
   const supportedChainId = [
@@ -74,10 +75,10 @@ const useWeb3Store = defineStore('Web3Store', () => {
   // const { active, deactivate, activate, account, library, } = useWeb3<Web3>();
 
   const connectWallet = async() => {
-    if (!process.env.ENABLE_WEB3) {
-      alert(i18n.t('COMMING_SOON'));
-      return;
-    }
+    // if (!process.env.ENABLE_WEB3) {
+    //   alert(i18n.t('COMMING_SOON'));
+    //   return;
+    // }
     if (isActivated.value) {
       const result = confirm('Do you want to disconnect wallet ?');
       if (result) {
