@@ -52,7 +52,11 @@
                             >
                                 Do Duplicate
                             </button>
-                            <button v-if="currentNft.status === 'dupicate_done'" class="btn-scifi">
+                            <button
+                                v-if="currentNft.status === 'dupicate_done'"
+                                v-on:click="doClaimAll"
+                                class="btn-scifi"
+                            >
                                 Claim All
                             </button>
                             <template
@@ -85,7 +89,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { Countdown } from 'vue3-flip-countdown';
-const statusList: string[] = ['live', 'duplicating', 'dupicate_done', 'broken', ];
+const statusList: string[] = ['live', 'dupicate_done', 'broken', ];
 type HexNftType = {
     id: number;
   status: 'live' | 'duplicating' | 'dupicate_done' | 'broken';
@@ -124,7 +128,7 @@ const doDuplicate = () => {
     currentNft.value.deadlineDate = new Date(Date.now() + currentNft.value.DuplicateDuration * 1000);
     setTimeout(() => {
       doDuplicateDone();
-    });
+    }, currentNft.value.DuplicateDuration * 1000);
   }
 };
 const goFixing = () => {
