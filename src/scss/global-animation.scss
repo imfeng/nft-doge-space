@@ -2,11 +2,18 @@
 .flight {
     animation:flight 2s ease-in-out infinite;
 }
+.flight-white {
+    animation:flight-white 2s ease-in-out infinite;
+}
+.shinning {
+    animation:shinning 2s ease-in-out infinite;
+    animation-delay: .5s;
+}
 @keyframes flight{
     0% {
         // top: -50px;
         transform: translateY(0px);
-        filter: drop-shadow(0px 0px 15px rgba(255, 0, 247, 0.7));
+        filter: drop-shadow(0px 0px 55px rgba(255, 0, 247, 0.6));
     }
     50% {
         // top: -70px;
@@ -16,6 +23,34 @@
     100% {
         // top: 0px;
         transform: translateY(0px);
-        filter: drop-shadow(0px 0px 15px rgba(255, 0, 247, 0.7));
+        filter: drop-shadow(0px 0px 55px rgba(255, 0, 247, 0.6));
+    }
+}
+@keyframes flight-white{
+    0% {
+        // top: -50px;
+        transform: translateY(0px);
+        filter: drop-shadow(0px 0px 55px rgba(255, 255, 255, 0.6));
+    }
+    50% {
+        // top: -70px;
+        transform: translateY(50px);
+        filter: drop-shadow(0px 0px 5px rgba(255, 255, 255, 0.3));
+    }
+    100% {
+        // top: 0px;
+        transform: translateY(0px);
+        filter: drop-shadow(0px 0px 55px rgba(255, 255, 255, 0.6));
+    }
+}
+@keyframes shinning{
+    0% {
+        text-shadow: 0px 0px 15px rgba(255, 0, 247, 0.7);
+    }
+    50% {
+        text-shadow: 0px 0px 5px rgba(255, 0, 247, 0.3);
+    }
+    100% {
+        text-shadow: 0px 0px 15px rgba(255, 0, 247, 0.7);
     }
 }

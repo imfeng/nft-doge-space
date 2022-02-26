@@ -9,18 +9,18 @@
                     HEXDOGE
                 </h1>
             </div>
-            <p class="sub-title">
-                TO THE MOON AND EARN
-            </p>
+            <div class="sub-title-box">
+                <p class="sub-title">
+                    TO THE MOON AND EARN
+                </p>
+            </div>
         </div>
         <div class="content">
             <div class="hex-box">
                 <img class="flight" v-bind:src="require('@/assets/images/HEX_01a.png')">
             </div>
         </div>
-        <div class="bg-cover">
 
-        </div>
     </div>
     <!-- <section class="section-content">
         <div class="hex-box">
@@ -40,16 +40,15 @@ const {
   isMobile,
 } = GlobalStore;
 onMounted(() => {
-  startType();
-  // setInterval(() => {
-  //   startType();
-  // }, 5000);
+  startType('.title-box', 1000, ['shinning', ]);
+  startType('.sub-title-box', 2000);
 });
-function startType() {
-  const title = document.querySelector('.title-box');
+function startType(selector: string, delay = 1000, classList: string[] = []) {
+  const title = document.querySelector(selector);
   const CHAR_TIME = 50;
 
   let text: string, index: number;
+  start();
 
   function requestCharAnimation(char: any, value: string) {
     setTimeout(function() {
@@ -61,6 +60,8 @@ function startType() {
   function addChar() {
     const char = document.createElement('span');
     char.classList.add('char');
+    classList.forEach(c => char.classList.add(c));
+
     char.textContent = '▌';
     title?.appendChild(char);
     requestCharAnimation(char, text.substr(index++, 1));
@@ -79,16 +80,14 @@ function startType() {
     if (title?.textContent) {
       title.textContent = '';
     }
-    requestChar(1000);
+    requestChar(delay);
   }
-  start();
 }
 
 </script>
 
 <style lang="scss">
 .section-home {
-  position: relative;
   background: url('~@/assets/images/background2.jpg') no-repeat center bottom;
   background-position: 0, 100px;
   min-height: 100vh;
@@ -101,16 +100,7 @@ function startType() {
   color: #fff;
   font-size: 2.5rem;
   text-shadow: 0 0 10px #000;
-  .bg-cover {
-    z-index: 0;
-    opacity: 0.7;
-    position: absolute;
-    top:0;
-    left:0;
-    width: 100%;
-    height: 100%;
-    background: lighten(#111, 5%) url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAG0lEQVQYV2P8//+/FCMj4zMGJMCIzIGxKRQEAJgPBAbJqUVTAAAAAElFTkSuQmCC") repeat;
-  }
+
   .content {
     position: relative;
     z-index: 1;
@@ -130,10 +120,15 @@ function startType() {
     z-index: 1;
     .title-box {
       height: 10rem;
-
+      min-height: 10rem;
+      font-size: 9rem;
+    }
+    .sub-title-box {
+      min-height: 1.5rem;
+      font-size: 1.5rem;
+      padding-left: .5rem;
     }
     .title {
-      font-size: 10rem;
     }
   }
 
@@ -150,9 +145,7 @@ function startType() {
   }
 
 }
-  .title-box {
-    min-height: 100px;
-    font-size: 350%;
+  .title-box, .sub-title-box {
     font-weight: normal;
     letter-spacing: 0.5rem;
     .char {

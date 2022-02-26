@@ -11,7 +11,10 @@
                 <a target="_blank" href=""><SvgIcon v-bind:iconName="'icon-instagram'" class="icon-svg icon-instagram"></SvgIcon></a>
             </li> -->
             <li>
-                <a target="_blank" href=""><SvgIcon v-bind:iconName="'icon-dc'" class="icon-svg icon-dc"></SvgIcon></a>
+                <a target="_blank" href=""><SvgIcon v-bind:iconName="'icon-discord'" class="icon-svg icon-dc"></SvgIcon></a>
+            </li>
+            <li>
+                <a target="_blank" href=""><SvgIcon v-bind:iconName="'icon-opensea'" class="icon-svg icon-dc"></SvgIcon></a>
             </li>
         </ul>
     </nav>

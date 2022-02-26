@@ -1,21 +1,21 @@
 <template>
     <nav class="nav-bottom">
         <div class="nav-box">
-            <div class="nav-item">
+            <RouterLink v-bind:to="getUrl(RoutePath.HOME)" class="nav-item active">
                 <p>HOME</p>
-            </div>
-            <div class="nav-item">
+            </RouterLink>
+            <RouterLink v-bind:to="getUrl(RoutePath.MINT)" class="nav-item">
                 <p>MINT</p>
-            </div>
-            <div class="nav-item">
+            </RouterLink>
+            <RouterLink v-bind:to="getUrl(RoutePath.DUPLICATE)" class="nav-item">
                 <p>DUPLICATE</p>
-            </div>
-            <div class="nav-item">
+            </RouterLink>
+            <RouterLink v-bind:to="getUrl(RoutePath.COMBINE)" class="nav-item">
                 <p>COMBINE</p>
-            </div>
-            <div class="nav-item">
+            </RouterLink>
+            <RouterLink v-bind:to="getUrl(RoutePath.FIXING)" class="nav-item">
                 <p>FIXING</p>
-            </div>
+            </RouterLink>
             <div class="nav-item">
                 <NavSocial></NavSocial>
             </div>
@@ -24,9 +24,10 @@
 </template>
 
 <script setup lang="ts">
+import { RouterLink } from 'vue-router';
 import NavSocial from '@/components/NavSocial.vue';
+import { getUrl, RoutePath } from '@/routes';
 import { GlobalStore } from '@/store/GlobalStore';
-
 </script>
 
 <style lang="scss">
@@ -47,6 +48,9 @@ import { GlobalStore } from '@/store/GlobalStore';
         align-items: center;
         height: 100%;
         .nav-item {
+            cursor: pointer;
+            color: #d9d9d9;
+            margin: 0;
             padding: 1.3rem 1rem;
             display: flex;
             align-items: center;
@@ -56,6 +60,13 @@ import { GlobalStore } from '@/store/GlobalStore';
             font-size: 2rem;
             text-align: center;
             border-right: 1px solid $boder-color;
+            &:hover {
+                background: rgba(255, 255, 255, 0.1);
+            }
+            &.router-link-active {
+                color: white;
+                background: rgba(226, 83, 255, .7);
+            }
         }
     }
 

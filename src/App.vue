@@ -2,6 +2,9 @@
     <div class="app" v-bind:class="[i18n.locale.value, isMobile ? 'mobile' : 'desktop']">
         <!-- <Header></Header> -->
         <RouterView></RouterView>
+        <div class="bg-cover">
+
+        </div>
         <NavBottom></NavBottom>
         <!-- <Footer></Footer> -->
         <Icons></Icons>
@@ -35,4 +38,14 @@ const { isMobile, } = GlobalStore;
         // background: url('~@/assets/images/background.jpg') no-repeat center center;
         // background-size: cover;
     }
+      .bg-cover {
+    z-index: 0;
+    opacity: 0.7;
+    position: absolute;
+    top:0;
+    left:0;
+    width: 100%;
+    height: 100%;
+    background: lighten(#111, 5%) url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAG0lEQVQYV2P8//+/FCMj4zMGJMCIzIGxKRQEAJgPBAbJqUVTAAAAAElFTkSuQmCC") repeat;
+  }
 </style>
