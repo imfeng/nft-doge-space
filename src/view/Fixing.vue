@@ -99,6 +99,9 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { HexNftType, HexStore } from '@/composable/useHex';
+import { GlobalStore } from '@/store/GlobalStore';
+const { setLoading, } = GlobalStore;
+
 const {
   myNfts,
   currentNft,

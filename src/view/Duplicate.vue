@@ -128,6 +128,8 @@
 import { ref, computed } from 'vue';
 import { Countdown } from 'vue3-flip-countdown';
 import { HexStore, HexNftType } from '../composable/useHex';
+import { GlobalStore } from '@/store/GlobalStore';
+const { setLoading, } = GlobalStore;
 
 const {
   myNfts,
@@ -143,13 +145,23 @@ const doDuplicateDone = () => {
 };
 const doClaimAll = () => {
   if (currentNft.value) {
-    currentNft.value.status = 'liveness';
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+      if (currentNft.value) {
+        currentNft.value.status = 'liveness';
+      }
+    }, 3000);
   }
 };
 const doDuplicate = () => {
   if (currentNft.value) {
+    setLoading(true);
     currentNft.value.status = 'duplicating';
     currentNft.value.DuplicateDoneDate = new Date(Date.now() + currentNft.value.DuplicateDuration * 1000);
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
     setTimeout(() => {
       doDuplicateDone();
     }, currentNft.value.DuplicateDuration * 1000);

@@ -38,7 +38,7 @@ function useHex() {
     id: Math.round(Math.random() * 1000) + 1,
     image: require(`@/assets/images/hex/${Math.round(Math.random() * 6) + 1}.png`),
     status: getRandomFromArray(statusList),
-    DuplicateDuration: (Math.round(Math.random() * 10) + 1),
+    DuplicateDuration: (Math.round(Math.random() * 10) + 5),
     DuplicateSuccessRate: (Math.round(Math.random() * 100) + 1),
     DuplicateEnergyEarn: (Math.round(Math.random() * 10000) + 1000),
     FixingEnergyCost: (Math.round(Math.random() * 10000) + 1000),
