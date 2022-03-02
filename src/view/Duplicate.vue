@@ -4,7 +4,7 @@
             duplicate
         </h1>
         <div class="content">
-            <div class="duplicate-box">
+            <div class="duplicate-box card">
                 <div class="wrapper wrapper-left">
                     <p>Select your NFT:</p>
                     <div class="select">
@@ -18,6 +18,33 @@
                             </option>
                         </select>
                     </div>
+
+                    <div class="message-box">
+                        <h3 class="title">
+                            HEX #{{ currentNft.id }}
+                        </h3>
+                        <p>Duplicate Durations: {{ currentNft.DuplicateDuration }} seconds</p>
+                        <p>Success rate: {{ currentNft.SuccessRate }} %</p>
+                        <p>Energy token will be earn: {{ currentNft.EnergyEarn }} ENG</p>
+                    </div>
+                </div>
+                <div class="wrapper wrapper-right ">
+                    <div class="demo-box">
+                        <div class="arrow-box">
+                            <div class="arrowSliding">
+                                <div class="arrow"></div>
+                            </div>
+                            <div class="arrowSliding delay1">
+                                <div class="arrow"></div>
+                            </div>
+                            <div class="arrowSliding delay2">
+                                <div class="arrow"></div>
+                            </div>
+                            <div class="arrowSliding delay3">
+                                <div class="arrow"></div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="nft-box">
                         <img
                             v-if="!currentNft"
@@ -29,20 +56,8 @@
                             class="flight-white"
                             v-bind:src="currentNft.image"
                         >
-
                     </div>
-                </div>
-                <div class="wrapper wrapper-right card">
                     <div v-if="currentNft" class="detail">
-
-                        <div class="message-box">
-                            <h3 class="title">
-                                HEX #{{ currentNft.id }}
-                            </h3>
-                            <p>Duplicate Durations: {{ currentNft.DuplicateDuration }} seconds</p>
-                            <p>Success rate: {{ currentNft.SuccessRate }} %</p>
-                            <p>Energy token will be earn: {{ currentNft.EnergyEarn }} ENG</p>
-                        </div>
 
                         <div class="control-box">
                             <button
@@ -65,7 +80,12 @@
                                 <p class="comment">
                                     Duplicating......
                                 </p>
-                                <Countdown v-bind:deadlineDate="currentNft.deadlineDate" mainColor="#fa53ec" />
+                                <Countdown
+                                    v-bind:deadlineDate="currentNft.deadlineDate"
+                                    v-bind:showDays="false"
+                                    mainColor="#fa53ec"
+                                    labelColor="#fa53ec"
+                                />
                             </template>
                             <template
                                 v-if="currentNft.status === 'broken'"
@@ -89,22 +109,15 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { Countdown } from 'vue3-flip-countdown';
-const statusList: string[] = ['live', 'dupicate_done', 'broken', ];
-type HexNftType = {
-    id: number;
-  status: 'live' | 'duplicating' | 'dupicate_done' | 'broken';
-  DuplicateDuration: number;
-SuccessRate: number;
-EnergyEarn: number;
-image: string;
-deadlineDate: Date | null,
-};
+import { HexNftType } from '@/composable/useHex';
+const statusList: string[] = ['live', 'broken', ];
+
 const myNfts = ref<HexNftType[]>([]);
 const currentNft = ref<HexNftType | null>(null);
 myNfts.value = new Array(6).fill(0).map((_, i) => ({
   id: Math.round(Math.random() * 1000) + 1,
   status: getRandomFromArray(statusList),
-  DuplicateDuration: (Math.round(Math.random() * 10) + 1),
+  DuplicateDuration: (Math.round(Math.random() * 10) + 1000),
   SuccessRate: (Math.round(Math.random() * 100) + 1),
   EnergyEarn: (Math.round(Math.random() * 10000) + 1000),
   image: require(`@/assets/images/hex/${Math.round(Math.random() * 6) + 1}.png`),
@@ -173,12 +186,12 @@ function getRandomFromArray(arr: any[]) {
             }
         }
         .wrapper-right {
-            flex: 1 1 60%;
+            flex: 1 1 45%;
             .detail {
                 display: flex;
                 flex-direction: column;
                 justify-content: space-around;
-                height: 100%;
+                // height: 100%;
             }
             .message-box {
                 // text-align: center;
@@ -191,7 +204,7 @@ function getRandomFromArray(arr: any[]) {
             }
         }
         .wrapper-left {
-            flex: 1 1 40%;
+            flex: 1 1 55%;
             // width: 520px;
             .select {
                 width: 100%;
@@ -205,7 +218,7 @@ function getRandomFromArray(arr: any[]) {
             text-align: center;
             img {
                 // width: 100%;
-                height: 300px;
+                height: 250px;
             }
         }
     }

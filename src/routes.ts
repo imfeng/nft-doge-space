@@ -1,6 +1,6 @@
 
 import { defineAsyncComponent } from 'vue';
-import { createRouter, createWebHistory, RouteRecordRaw, RouterScrollBehavior } from 'vue-router';
+import { createRouter, createWebHashHistory, RouteRecordRaw, RouterScrollBehavior } from 'vue-router';
 import Combine from '@/view/Combine.vue';
 import Duplicate from '@/view/Duplicate.vue';
 import Fixing from '@/view/Fixing.vue';
@@ -65,7 +65,7 @@ const scrollBehavior: RouterScrollBehavior = (to, from, savedPosition) => {
 };
 export const router = createRouter({
 
-  history: createWebHistory(),
+  history: createWebHashHistory(),
   routes, // short for `routes: routes`
   scrollBehavior,
 });
