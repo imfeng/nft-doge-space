@@ -1,5 +1,6 @@
 <template>
     <div class="app" v-bind:class="[i18n.locale.value, isMobile ? 'mobile' : 'desktop']">
+        <Loading v-if="isLoading"></Loading>
         <!-- <Header></Header> -->
         <RouterView></RouterView>
         <div class="bg-cover">
@@ -19,11 +20,12 @@ import Web3Board from './ethers/components/Board.vue';
 // import Footer from '@/components/Footer.vue';
 // import Header from '@/components/Header.vue';
 import Icons from '@/components/Icon/Icons.vue';
+import Loading from '@/components/Loading.vue';
 import NavBottom from '@/components/NavBottom.vue';
 import { i18n } from '@/locales/i18n';
 import { GlobalStore } from '@/store/GlobalStore';
 
-const { isMobile, } = GlobalStore;
+const { isMobile, isLoading, } = GlobalStore;
 
 </script>
 
