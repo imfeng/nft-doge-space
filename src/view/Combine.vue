@@ -24,7 +24,7 @@ import { i18n } from '@/locales/i18n';
       .content {
           position: relative;
           z-index: 1;
-          height: 100%;
+        //   height: 100%;
           display: flex;
           flex-direction: column;
           justify-content: center;

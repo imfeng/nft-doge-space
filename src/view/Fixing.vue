@@ -119,9 +119,12 @@ const doClaimAll = () => {
 };
 const doFixing = () => {
   if (currentNft.value) {
-    currentNft.value.status = 'duplicating';
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+      doFixingDone();
+    }, 1000);
     // currentNft.value.deadlineDate = new Date(Date.now() + currentNft.value.DuplicateDuration * 1000);
-    doFixingDone();
   }
 };
 const goFixing = () => {
