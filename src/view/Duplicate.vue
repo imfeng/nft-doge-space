@@ -19,18 +19,46 @@
                         </select>
                     </div>
 
-                    <div class="message-box">
+                    <div v-if="currentNft" class="message-box">
                         <h3 class="title">
                             HEX #{{ currentNft.id }}
                         </h3>
                         <p>Duplicate Durations: {{ currentNft.DuplicateDuration }} seconds</p>
-                        <p>Success rate: {{ currentNft.SuccessRate }} %</p>
-                        <p>Energy token will be earn: {{ currentNft.EnergyEarn }} ENG</p>
+                        <p>Success rate: {{ currentNft.DuplicateSuccessRate }} %</p>
+                        <p>Energy token will be earn: {{ currentNft.DuplicateEnergyEarn }} ENG</p>
                     </div>
                 </div>
                 <div class="wrapper wrapper-right ">
                     <div class="demo-box">
-                        <div class="arrow-box">
+                        <div class="nft-box">
+                            <img
+                                v-if="!currentNft"
+                                class="flight"
+                                v-bind:src="require('@/assets/images/HEX_01a.png')"
+                            >
+                            <img
+                                v-else
+                                v-bind:class="{
+                                    'flight-white': !isDuplicating,
+                                }"
+                                v-bind:src="currentNft.image"
+                            >
+                            <div
+                                class="nft-offspring"
+                                v-bind:class="{
+                                    disabled: !isDuplicating && !isDuplicatingDone,
+                                    duplicating: isDuplicating,
+                                }"
+                            >
+                                <img
+                                    v-bind:class="{
+                                        'flight-white': isDuplicating || isDuplicatingDone,
+                                    }"
+                                    v-bind:src="require('@/assets/images/A_1.gif')"
+                                >
+                            </div>
+                        </div>
+                        <!-- <div class="arrow-box">
                             <div class="arrowSliding">
                                 <div class="arrow"></div>
                             </div>
@@ -43,25 +71,15 @@
                             <div class="arrowSliding delay3">
                                 <div class="arrow"></div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="nft-box">
-                        <img
-                            v-if="!currentNft"
-                            class="flight"
-                            v-bind:src="require('@/assets/images/HEX_01a.png')"
-                        >
-                        <img
-                            v-else
-                            class="flight-white"
-                            v-bind:src="currentNft.image"
-                        >
+
+                        </div> -->
+
                     </div>
                     <div v-if="currentNft" class="detail">
 
                         <div class="control-box">
                             <button
-                                v-if="currentNft.status === 'live'"
+                                v-if="currentNft.status === 'liveness'"
                                 v-on:click="doDuplicate"
                                 class="btn-scifi"
                             >
@@ -81,7 +99,7 @@
                                     Duplicating......
                                 </p>
                                 <Countdown
-                                    v-bind:deadlineDate="currentNft.deadlineDate"
+                                    v-bind:deadlineDate="currentNft.DuplicateDoneDate"
                                     v-bind:showDays="false"
                                     mainColor="#fa53ec"
                                     labelColor="#fa53ec"
@@ -107,23 +125,16 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { Countdown } from 'vue3-flip-countdown';
-import { HexNftType } from '@/composable/useHex';
-const statusList: string[] = ['live', 'broken', ];
+import { HexStore, HexNftType } from '../composable/useHex';
 
-const myNfts = ref<HexNftType[]>([]);
-const currentNft = ref<HexNftType | null>(null);
-myNfts.value = new Array(6).fill(0).map((_, i) => ({
-  id: Math.round(Math.random() * 1000) + 1,
-  status: getRandomFromArray(statusList),
-  DuplicateDuration: (Math.round(Math.random() * 10) + 1000),
-  SuccessRate: (Math.round(Math.random() * 100) + 1),
-  EnergyEarn: (Math.round(Math.random() * 10000) + 1000),
-  image: require(`@/assets/images/hex/${Math.round(Math.random() * 6) + 1}.png`),
-  deadlineDate: null,
-}) as unknown as HexNftType);
-currentNft.value = myNfts.value[0];
+const {
+  myNfts,
+  currentNft,
+  isDuplicating,
+  isDuplicatingDone,
+} = HexStore;
 
 const doDuplicateDone = () => {
   if (currentNft.value) {
@@ -132,13 +143,13 @@ const doDuplicateDone = () => {
 };
 const doClaimAll = () => {
   if (currentNft.value) {
-    currentNft.value.status = 'live';
+    currentNft.value.status = 'liveness';
   }
 };
 const doDuplicate = () => {
   if (currentNft.value) {
     currentNft.value.status = 'duplicating';
-    currentNft.value.deadlineDate = new Date(Date.now() + currentNft.value.DuplicateDuration * 1000);
+    currentNft.value.DuplicateDoneDate = new Date(Date.now() + currentNft.value.DuplicateDuration * 1000);
     setTimeout(() => {
       doDuplicateDone();
     }, currentNft.value.DuplicateDuration * 1000);
@@ -161,7 +172,7 @@ function getRandomFromArray(arr: any[]) {
     .content {
 
         p {
-            font-size: 2rem;
+            font-size: 1.5rem;
             line-height: 1.5;
         }
         .card {
@@ -186,11 +197,12 @@ function getRandomFromArray(arr: any[]) {
             }
         }
         .wrapper-right {
-            flex: 1 1 45%;
+            flex: 1 1 55%;
             .detail {
                 display: flex;
                 flex-direction: column;
                 justify-content: space-around;
+                min-height: 100px;
                 // height: 100%;
             }
             .message-box {
@@ -204,22 +216,54 @@ function getRandomFromArray(arr: any[]) {
             }
         }
         .wrapper-left {
-            flex: 1 1 55%;
+            flex: 1 1 45%;
             // width: 520px;
             .select {
                 width: 100%;
                 // font-size: 3rem;
             }
         }
+        .demo-box {
+            text-align: center;
 
+        }
         .nft-box {
+            position: relative;
             padding-top: 20px;
             padding-bottom: 50px;
-            text-align: center;
-            img {
+            & > img {
                 // width: 100%;
                 height: 250px;
+                &.disabled {
+                    filter: grayscale(1);
+                }
             }
+            .nft-offspring {
+                position: absolute;
+                bottom: 50px;
+                right: -60px;
+                opacity: 1;
+                img {
+                    width: 140px;
+                    height: auto;
+                }
+
+                &.duplicating {
+                    animation: blink 1s infinite;
+                }
+
+                &.disabled {
+                    opacity: 0;
+                    bottom: 0;
+                    filter: grayscale(1);
+                }
+            }
+        }
+        .demo-box {
+            & > * {
+                display: inline-block;
+            }
+
         }
     }
 }

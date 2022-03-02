@@ -66,3 +66,20 @@
     text-shadow: 0 0 15px rgba(255, 0, 247, .7);
   }
 }
+
+@keyframes blink {
+  0% {
+    // top: -50px;
+    opacity: .3;
+  }
+
+  50% {
+    // top: -70px;
+    opacity: .8;
+  }
+
+  100% {
+    // top: 0px;
+    opacity: .3;
+  }
+}

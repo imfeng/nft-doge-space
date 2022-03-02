@@ -323,3 +323,117 @@ select::-ms-expand {
 .select:hover::after {
   color: #fa53ec;
 }
+
+/* arrow */
+
+$arrow: 20px;
+$arrowBorder: 10px;
+$offset: 100px;
+
+.arrow-box {
+  width: $offset*2;
+  height: $offset*.5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.arrow {
+  width: $arrow;
+  height: $arrow;
+  border: $arrowBorder solid;
+  //   border: $arrow/2 solid;
+  border-color: rgb(255, 255, 255) transparent transparent rgb(255, 255, 255);
+  transform: rotate(135deg);
+}
+
+.arrowSliding {
+  opacity: 0;
+  transform: translateX(-$offset);
+  position: absolute;
+  animation: slide 4s linear infinite;
+}
+
+.delay1 {
+  animation-delay: 1s !important;
+}
+
+.delay2 {
+  animation-delay: 2s !important;
+}
+
+.delay3 {
+  animation-delay: 3s !important;
+}
+
+@media only screen and (max-width: 860px) {
+  .section-migrate {
+    & > .content {
+      .migrate-box {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        .box {
+          margin: 0;
+
+          &:last-of-type {
+            margin: 0;
+          }
+        }
+
+        .box-middle {
+          padding: 0;
+
+          .arrow-box {
+            height: 200px;
+            width: auto;
+          }
+
+          .arrow {
+            transform: rotate(225deg);
+          }
+
+          .arrowSliding {
+            transform: translateY(-$offset);
+            animation: slide-ver 4s linear infinite;
+          }
+        }
+
+        .controller-box {
+          min-height: initial;
+        }
+      }
+    }
+  }
+}
+
+@keyframes slide {
+  0% {
+    opacity: 0;
+    transform: translateX(-$offset);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateX($offset);
+  }
+
+  //    80% { opacity:1; transform: translateX(-$offsetMiddle); }
+  //   100% { opacity:0; transform: translateX(-$offset); }
+}
+
+@keyframes slide-ver {
+  0% {
+    opacity: 0;
+    transform: translateY(-$offset);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY($offset);
+  }
+
+  //    80% { opacity:1; transform: translateX(-$offsetMiddle); }
+  //   100% { opacity:0; transform: translateX(-$offset); }
+}
