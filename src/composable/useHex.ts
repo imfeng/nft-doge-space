@@ -1,6 +1,7 @@
 import { BigNumber } from 'ethers';
 import { computed, ref, watch, reactive } from 'vue';
 import { Web3Store } from '../store/Web3Store';
+import { throttle } from '@/utils/debounce';
 export const MAX_GENESIS_HEX = 36;
 
 export const NULL_ADDRESS = '0x0000000000000000000000000000000000000000';
@@ -68,30 +69,42 @@ function useHex() {
     state.NORMAL_TOKENS = cnt;
     return cnt;
   };
+  const isRefreshing = ref(false);
   const refresh = async() => {
-    if (HexDogeContract.value) {
-      console.log('GO');
+    try {
+      console.log('refresh');
+      isRefreshing.value = true;
+      if (HexDogeContract.value) {
+        console.log('GO');
 
-      const id = (await HexDogeContract.value.CURRENT_GENESIS_ID()) as any;
-      state.CURRENT_GENESIS_ID = id;
+        const id = (await HexDogeContract.value.CURRENT_GENESIS_ID()) as any;
+        state.CURRENT_GENESIS_ID = id;
 
-      const arr: string[] = [];
-      for (let tokenId = 0; tokenId <= id; tokenId++) {
-        const addr: any = await HexDogeContract.value.token2ownerMap(tokenId.toString());
-        arr[tokenId] = addr;
-        if (addr === account.value) {
-          getMetadata(tokenId);
+        const arr: string[] = [];
+        for (let tokenId = 0; tokenId <= id; tokenId++) {
+          const addr: any = await HexDogeContract.value.token2ownerMap(tokenId.toString());
+          arr[tokenId] = addr;
+          if (addr === account.value) {
+            getMetadata(tokenId);
+          }
         }
-      }
-      ownerList.value = arr;
+        ownerList.value = arr;
 
-      const energy = (await HexDogeContract.value.balanceOf(account.value, '9999')) as any;
-      state.ENERGY_TOKENS = energy.toNumber();
-      console.log('id', energy.toNumber(), ownerList);
-      getNormals();
-      // state.CURRENT_GENESIS_ID = parseInt(await HexDogeContract.value.CURRENT_GENESIS_ID().call());
+        const energy = (await HexDogeContract.value.balanceOf(account.value, '9999')) as any;
+        state.ENERGY_TOKENS = energy.toNumber();
+        console.log('id', energy.toNumber(), ownerList);
+        getNormals();
+        // state.CURRENT_GENESIS_ID = parseInt(await HexDogeContract.value.CURRENT_GENESIS_ID().call());
+      }
+    } catch (error) {
+
     }
+    isRefreshing.value = false;
   };
+  // const refresh = throttle(() => {
+  //   console.log('thottle');
+  //   _refresh;
+  // }, 3000);
 
   watch(HexDogeContract, async() => {
     console.log('?', HexDogeContract.value);
@@ -177,6 +190,7 @@ function useHex() {
     isDuplicatingDone,
     isBroken,
     refresh,
+    isRefreshing,
   };
 }
 
