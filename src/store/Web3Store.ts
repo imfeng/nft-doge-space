@@ -103,7 +103,7 @@ const useWeb3Store = defineStore('Web3Store', () => {
   return {
     connectWallet,
     // connectUsingWalletConnect,
-    mintPerPrice,
+    etherProvider,
     active: isActivated,
     account: address,
     HexDogeContract,

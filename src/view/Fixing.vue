@@ -99,25 +99,30 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { HexNftType, HexStore } from '@/composable/useHex';
+import { web3ErrorToMsg } from '@/ethers/utils';
 import { GlobalStore } from '@/store/GlobalStore';
+import { Web3Store } from '@/store/Web3Store';
 const { setLoading, } = GlobalStore;
 
 const {
   myNfts,
   currentNft,
   isBroken,
+  refresh,
 } = HexStore;
+const {
+  connectWallet,
+  active,
+  account,
+  HexDogeContract,
+} = Web3Store;
 const doFixingDone = () => {
   if (currentNft.value) {
     currentNft.value.status = 'liveness';
   }
 };
-const doClaimAll = () => {
-  if (currentNft.value) {
-    // currentNft.value.status = 'live';
-  }
-};
-const doFixing = () => {
+
+const doFixing = async() => {
   if (currentNft.value) {
     setLoading(true);
     setTimeout(() => {
@@ -126,9 +131,22 @@ const doFixing = () => {
     }, 1000);
     // currentNft.value.deadlineDate = new Date(Date.now() + currentNft.value.DuplicateDuration * 1000);
   }
-};
-const goFixing = () => {
-
+  if (currentNft.value) {
+    try {
+      setLoading(true);
+      await HexDogeContract.value?.doFixing(currentNft.value.id.toString());
+      setTimeout(() => {
+        refresh();
+      }, 5000);
+      setTimeout(() => {
+        setLoading(false);
+        doFixingDone();
+      }, 8000);
+    } catch (error) {
+      setLoading(false);
+      alert(web3ErrorToMsg(error));
+    }
+  }
 };
 
 </script>

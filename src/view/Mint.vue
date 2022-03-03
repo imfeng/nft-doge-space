@@ -17,7 +17,7 @@
                         >
                     </div>
                     <h4 class="title font-blackopsone">
-                        2131 / 6666
+                        {{ state.CURRENT_GENESIS_ID }} / {{ MAX_GENESIS_HEX }}
                     </h4>
                     <hr>
                     <div class="price-info-box font-blackopsone">
@@ -100,17 +100,24 @@ import { ethers } from 'ethers';
 import { computed, ref, watch } from 'vue';
 import SvgIcon from '@/components/Icon/SvgIcon.vue';
 import NavSocial from '@/components/NavSocial.vue';
+import { HexStore, MAX_GENESIS_HEX } from '@/composable/useHex';
 import { web3ErrorToMsg } from '@/ethers/utils';
 import { shortenAddress } from '@/ethers/utils/format';
 import { i18n } from '@/locales/i18n';
+import { GlobalStore } from '@/store/GlobalStore';
 import { Web3Store } from '@/store/Web3Store';
+const { setLoading, } = GlobalStore;
+
 const PRICE = 0.001;
 const mintNum = ref(1);
 const mintNumController = (add = 1) => {
   mintNum.value += add;
 };
 const currentPrice = computed(() => Math.round(mintNum.value * PRICE * 1000) / 1000);
-
+const {
+  state,
+  refresh,
+} = HexStore;
 const {
   connectWallet,
   active,
@@ -121,15 +128,26 @@ watch(mintNum, (newVal) => {
   mintNum.value = Math.min(Math.max(newVal, 1), 20);
 });
 const doMint = async() => {
-  HexDogeContract.value?.mint(account.value, mintNum.value.toString())
-    .send({
-      from: account.value,
-      value: ethers.utils.parseEther(currentPrice.value.toString()).toString(),
-    })
+  const mint: any = HexDogeContract.value?.mint as any;
+  setLoading(true);
+  mint(account.value, mintNum.value.toString(), {
+    from: account.value,
+    // value: ethers.utils.parseEther(currentPrice.value.toString()).toString(),
+    value: ethers.utils.parseEther('0').toString(),
+  })
+    // .send({
+    //   from: account.value,
+    //   value: ethers.utils.parseEther(currentPrice.value.toString()).toString(),
+    // })
     .then(() => {
-      alert('Success');
+      setTimeout(() => {
+        setLoading(false);
+        alert('Success');
+        refresh();
+      }, 4500);
     }).catch((err: any) => {
       alert(web3ErrorToMsg(err));
+      setLoading(false);
     });
 };
 </script>
@@ -202,7 +220,7 @@ const doMint = async() => {
           &.active {
               color: #d2d2d2;
               font-size: 2rem;
-                background-color: #ffff0091;
+                background-color: #ffff00;
           }
             &.message {
                 font-size: 1.3rem;

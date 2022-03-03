@@ -6,6 +6,7 @@
         <div class="content">
             <div class="duplicate-box card">
                 <div class="wrapper wrapper-left">
+                    <!-- {{ myNfts }} -->
                     <p>Select your NFT:</p>
                     <div class="select">
                         <select v-model="currentNft" name="nftid">
@@ -128,7 +129,9 @@
 import { ref, computed } from 'vue';
 import { Countdown } from 'vue3-flip-countdown';
 import { HexStore, HexNftType } from '../composable/useHex';
+import { web3ErrorToMsg } from '@/ethers';
 import { GlobalStore } from '@/store/GlobalStore';
+import { Web3Store } from '@/store/Web3Store';
 const { setLoading, } = GlobalStore;
 
 const {
@@ -136,35 +139,49 @@ const {
   currentNft,
   isDuplicating,
   isDuplicatingDone,
+  refresh,
 } = HexStore;
+const {
+  connectWallet,
+  active,
+  account,
+  HexDogeContract,
+} = Web3Store;
 
-const doDuplicateDone = () => {
+const doClaimAll = async() => {
   if (currentNft.value) {
-    currentNft.value.status = 'dupicate_done';
+    try {
+      setLoading(true);
+      await HexDogeContract.value?.doClaimAll(currentNft.value.id.toString());
+      setTimeout(() => {
+        refresh();
+      }, 5000);
+      setTimeout(() => {
+        setLoading(false);
+      }, 8000);
+    } catch (error) {
+      setLoading(false);
+      alert(web3ErrorToMsg(error));
+    }
   }
 };
-const doClaimAll = () => {
+const doDuplicate = async() => {
   if (currentNft.value) {
-    setLoading(true);
-    setTimeout(() => {
+    try {
+      setLoading(true);
+      await HexDogeContract.value?.doDuplicate(currentNft.value.id.toString());
+      currentNft.value.status = 'duplicating';
+      currentNft.value.DuplicateDoneDate = new Date(Date.now() + currentNft.value.DuplicateDuration * 1000);
+      setTimeout(() => {
+        setLoading(false);
+      }, 2000);
+      setTimeout(() => {
+        refresh();
+      }, currentNft.value.DuplicateDuration * 1000);
+    } catch (error) {
       setLoading(false);
-      if (currentNft.value) {
-        currentNft.value.status = 'liveness';
-      }
-    }, 3000);
-  }
-};
-const doDuplicate = () => {
-  if (currentNft.value) {
-    setLoading(true);
-    currentNft.value.status = 'duplicating';
-    currentNft.value.DuplicateDoneDate = new Date(Date.now() + currentNft.value.DuplicateDuration * 1000);
-    setTimeout(() => {
-      setLoading(false);
-    }, 2000);
-    setTimeout(() => {
-      doDuplicateDone();
-    }, currentNft.value.DuplicateDuration * 1000);
+      alert(web3ErrorToMsg(error));
+    }
   }
 };
 const goFixing = () => {
