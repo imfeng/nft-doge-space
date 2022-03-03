@@ -160,6 +160,13 @@ function useHex() {
     return list;
   });
 
+  watch(myNftsList, (newList) => {
+    const item = newList.find(a => a.id === currentNft.value?.id);
+    if (item) {
+      currentNft.value = item;
+    }
+  });
+
   return {
     state,
     myNfts: myNftsList,
