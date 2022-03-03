@@ -24,6 +24,8 @@
                             HEX #{{ currentNft.id }}
                         </h3>
                         <p>Energy token cost: {{ currentNft.FixingEnergyCost }} ENG</p>
+
+                        <p>Your Energy tokens: {{ state.ENERGY_TOKENS }} ENG</p>
                     </div>
                 </div>
                 <div class="wrapper wrapper-right ">
@@ -109,6 +111,7 @@ const {
   currentNft,
   isBroken,
   refresh,
+  state,
 } = HexStore;
 const {
   connectWallet,

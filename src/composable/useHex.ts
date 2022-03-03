@@ -49,6 +49,7 @@ function useHex() {
   const ownerList = ref(new Array(MAX_GENESIS_HEX).fill(''));
   const state = reactive({
     CURRENT_GENESIS_ID: 0,
+    ENERGY_TOKENS: 0,
   });
 
   const refresh = async() => {
@@ -68,7 +69,9 @@ function useHex() {
       }
       ownerList.value = arr;
 
-      console.log('id', id.toNumber(), ownerList);
+      const energy = (await HexDogeContract.value.balanceOf(account.value, '9999')) as any;
+      state.ENERGY_TOKENS = energy.toNumber();
+      console.log('id', energy.toNumber(), ownerList);
       // state.CURRENT_GENESIS_ID = parseInt(await HexDogeContract.value.CURRENT_GENESIS_ID().call());
     }
   };
@@ -113,7 +116,8 @@ function useHex() {
             type: 'genesis',
             image: require(`@/assets/images/hex/${Math.round(Math.random() * 6) + 1}.png`),
             status: metadata[0],
-            DuplicateDuration: metadata[1].toNumber(),
+            DuplicateDuration: (Math.round(Math.random() * 10) + 5),
+            // DuplicateDuration: metadata[1].toNumber(),
             DuplicateSuccessRate: metadata[2].toNumber(),
             DuplicateEnergyEarn: metadata[3].toNumber(),
             DuplicateDoneDate: date,
