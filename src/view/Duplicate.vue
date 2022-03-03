@@ -154,7 +154,7 @@ const doDuplicateDone = () => {
 };
 watch(currentNft, () => {
   if (currentNft.value) {
-    if (currentNft.value.DuplicateDoneDate && new Date().getTime() >= currentNft.value.DuplicateDoneDate.getTime()) {
+    if (isDuplicating.value && currentNft.value.DuplicateDoneDate && new Date().getTime() >= currentNft.value.DuplicateDoneDate.getTime()) {
       setTimeout(() => {
         doDuplicateDone();
       }, 2000);

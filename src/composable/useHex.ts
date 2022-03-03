@@ -49,9 +49,25 @@ function useHex() {
   const ownerList = ref(new Array(MAX_GENESIS_HEX).fill(''));
   const state = reactive({
     CURRENT_GENESIS_ID: 0,
+    CURRENT_NORMAL_ID: 0,
     ENERGY_TOKENS: 0,
+    NORMAL_TOKENS: 0,
   });
 
+  const getNormals = async() => {
+    let cnt = 0;
+    if (HexDogeContract.value) {
+      const id = (await HexDogeContract.value?.CURRENT_NORMAL_ID()) as any;
+      for (let tokenId = 1000; tokenId <= id; tokenId++) {
+        const addr: any = await HexDogeContract.value.token2ownerMap(tokenId.toString());
+        if (addr === account.value) {
+          cnt++;
+        }
+      }
+    }
+    state.NORMAL_TOKENS = cnt;
+    return cnt;
+  };
   const refresh = async() => {
     if (HexDogeContract.value) {
       console.log('GO');
@@ -72,6 +88,7 @@ function useHex() {
       const energy = (await HexDogeContract.value.balanceOf(account.value, '9999')) as any;
       state.ENERGY_TOKENS = energy.toNumber();
       console.log('id', energy.toNumber(), ownerList);
+      getNormals();
       // state.CURRENT_GENESIS_ID = parseInt(await HexDogeContract.value.CURRENT_GENESIS_ID().call());
     }
   };
@@ -96,7 +113,8 @@ function useHex() {
     FixingEnergyCost: (Math.round(Math.random() * 10000) + 1000),
     DuplicateDoneDate: null,
   }) as unknown as HexNftType);
-  currentNft.value = myNfts.value[0];
+  // currentNft.value = myNfts.value[0];
+  const isLiveness = computed(() => currentNft.value?.status === 'liveness');
 
   const isDuplicating = computed(() => currentNft.value?.status === 'duplicating');
   const isDuplicatingDone = computed(() => currentNft.value?.status === 'dupicate_done');
@@ -116,8 +134,8 @@ function useHex() {
             type: 'genesis',
             image: require(`@/assets/images/hex/${Math.round(Math.random() * 6) + 1}.png`),
             status: metadata[0],
-            DuplicateDuration: (Math.round(Math.random() * 10) + 5),
-            // DuplicateDuration: metadata[1].toNumber(),
+            // DuplicateDuration: (Math.round(Math.random() * 10) + 5),
+            DuplicateDuration: metadata[1].toNumber(),
             DuplicateSuccessRate: metadata[2].toNumber(),
             DuplicateEnergyEarn: metadata[3].toNumber(),
             DuplicateDoneDate: date,
@@ -147,6 +165,7 @@ function useHex() {
     myNfts: myNftsList,
     // myNftsList,
     currentNft,
+    isLiveness,
     isDuplicating,
     isDuplicatingDone,
     isBroken,

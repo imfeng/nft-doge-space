@@ -1,6 +1,13 @@
 <template>
     <div class="section-home font-roblox">
 
+        <div v-if="active" class="profile">
+            <h4>Your information:</h4>
+            <p>Genesis Token balance: {{ myNfts.length }}</p>
+            <p>Normal Token balance: {{ state.NORMAL_TOKENS }}</p>
+            <p>Energy balance: {{ state.ENERGY_TOKENS }} ENG </p>
+
+        </div>
         <div
             class="top"
         >
@@ -34,8 +41,22 @@
 
 <script setup lang="ts">
 import { defineAsyncComponent, Component, computed, onMounted } from 'vue';
+import { HexStore } from '@/composable/useHex';
 import { GlobalStore } from '@/store/GlobalStore';
-
+import { Web3Store } from '@/store/Web3Store';
+const {
+  myNfts,
+  currentNft,
+  isBroken,
+  refresh,
+  state,
+} = HexStore;
+const {
+  connectWallet,
+  active,
+  account,
+  HexDogeContract,
+} = Web3Store;
 const {
   isMobile,
 } = GlobalStore;
@@ -88,6 +109,7 @@ function startType(selector: string, delay = 1000, classList: string[] = []) {
 
 <style lang="scss">
 .section-home {
+  position: relative;
   background: url('~@/assets/images/background2.jpg') no-repeat center bottom;
   background-position: 0, 100px;
   min-height: 100vh;
@@ -100,7 +122,13 @@ function startType(selector: string, delay = 1000, classList: string[] = []) {
   color: #fff;
   font-size: 2.5rem;
   text-shadow: 0 0 10px #000;
-
+  .profile {
+    z-index: 5;
+    position: absolute;
+    bottom: 150px;
+    left: 30px;
+    font-size: 1.5rem;
+  }
   .content {
     position: relative;
     z-index: 1;
