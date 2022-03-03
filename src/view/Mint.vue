@@ -100,6 +100,7 @@ import { ethers } from 'ethers';
 import { computed, ref, watch } from 'vue';
 import SvgIcon from '@/components/Icon/SvgIcon.vue';
 import NavSocial from '@/components/NavSocial.vue';
+import { web3ErrorToMsg } from '@/ethers/utils';
 import { shortenAddress } from '@/ethers/utils/format';
 import { i18n } from '@/locales/i18n';
 import { Web3Store } from '@/store/Web3Store';
@@ -128,7 +129,7 @@ const doMint = async() => {
     .then(() => {
       alert('Success');
     }).catch((err: any) => {
-      console.log(err);
+      alert(web3ErrorToMsg(err));
     });
 };
 </script>

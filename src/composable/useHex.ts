@@ -1,4 +1,5 @@
-import { computed, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
+import { Web3Store } from '../store/Web3Store';
 
 export type HexNftType = {
   id: number;
@@ -30,6 +31,10 @@ export function numberToDate(dateNumber: number): Date {
 }
 
 function useHex() {
+  const { HexDogeContract, } = Web3Store;
+  watch(HexDogeContract, () => {
+
+  });
   const statusList: string[] = ['liveness', 'dupicate_done', 'broken', ];
 
   const myNfts = ref<HexNftType[]>([]);

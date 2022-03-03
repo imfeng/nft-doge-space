@@ -18,7 +18,7 @@ export enum RoutePath {
 
 export function getUrl(path: string) {
   if (path === RoutePath.HOME) {
-    return baseUrl;
+    return '/';
   }
   return `${baseUrl}${path}`;
 }
