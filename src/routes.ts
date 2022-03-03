@@ -52,7 +52,7 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: '/*',
-    redirect: getUrl('/'),
+    redirect: getUrl(RoutePath.HOME),
   },
 
 ];

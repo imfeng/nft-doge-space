@@ -96,13 +96,14 @@
 
 <script setup lang="ts">
 
-import { computed, ref } from 'vue';
+import { ethers } from 'ethers';
+import { computed, ref, watch } from 'vue';
 import SvgIcon from '@/components/Icon/SvgIcon.vue';
 import NavSocial from '@/components/NavSocial.vue';
 import { shortenAddress } from '@/ethers/utils/format';
 import { i18n } from '@/locales/i18n';
 import { Web3Store } from '@/store/Web3Store';
-const PRICE = 0.123;
+const PRICE = 0.001;
 const mintNum = ref(1);
 const mintNumController = (add = 1) => {
   mintNum.value += add;
@@ -113,9 +114,22 @@ const {
   connectWallet,
   active,
   account,
+  HexDogeContract,
 } = Web3Store;
-const doMint = () => {
-
+watch(mintNum, (newVal) => {
+  mintNum.value = Math.min(Math.max(newVal, 1), 20);
+});
+const doMint = async() => {
+  HexDogeContract.value?.mint(account.value, mintNum.value.toString())
+    .send({
+      from: account.value,
+      value: ethers.utils.parseEther(currentPrice.value.toString()).toString(),
+    })
+    .then(() => {
+      alert('Success');
+    }).catch((err: any) => {
+      console.log(err);
+    });
 };
 </script>
 

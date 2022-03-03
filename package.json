@@ -3,7 +3,7 @@
   "version": "1.2.0",
   "private": true,
   "scripts": {
-    "abi2ts": "abi-types-generator './src/ethers/abi.json' --output='./src/ethers/types/' --name=contract",
+    "abi2ts": "abi-types-generator './src/ethers/abi.json' --output='./src/ethers/types/' --name=HexDoge",
     "serve": "vue-cli-service serve",
     "vite:dev": "vite",
     "vite:build": "vite build",

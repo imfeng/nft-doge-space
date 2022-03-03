@@ -2,17 +2,19 @@
 import ethers, { Contract } from 'ethers';
 import { reactive, ref, watch, computed } from 'vue';
 import { ChainId, Metamask, MetaMaskProvider, useBoard, useEthers, useEthersHooks, useWallet } from '@/ethers';
+import { HexDoge } from '@/ethers/types/HexDoge';
 import { i18n } from '@/locales/i18n';
 import { defineStore } from '@/store/store';
+const ABI = require('@/ethers/abi.json');
 //
-const contractAddress = '';
+const contractAddress = '0xe4100435ECA8d0736e64023E3AfF9f9Ef2B2c460';
 
 const useWeb3Store = defineStore('Web3Store', () => {
   const { open, } = useBoard();
   const { status, disconnect, error, provider: walletProvider, walletName, } = useWallet();
   const { address, balance, chainId, isActivated, provider: etherProvider, } = useEthers();
   const { onActivated, onChanged, } = useEthersHooks();
-  const ExampleContract = ref<Contract | null>(null);
+  const HexDogeContract = ref<HexDoge | null>(null);
   const state = reactive({
     name: '',
     maxTotalSupply: 0,
@@ -28,7 +30,7 @@ const useWeb3Store = defineStore('Web3Store', () => {
       const signer = etherProvider.value.getSigner();
       console.log('etherProvider.value', etherProvider.value);
       // etherProvider.value.getTransaction();
-      // ExampleContract.value = new Contract(contractAddress, contractAbi, signer);
+      HexDogeContract.value = new Contract(contractAddress, ABI, signer) as unknown as HexDoge;
     }
   });
   const supportedChainId = [
@@ -44,10 +46,15 @@ const useWeb3Store = defineStore('Web3Store', () => {
     selectedChainId.value = chainId.value as number;
     if (selectedChainId.value !== ChainId.Rinkeby) {
       alert('please change Network to Rinkeby !!!');
+      disconnect();
     }
   });
   onChanged(() => {
     selectedChainId.value = chainId.value as number;
+    if (selectedChainId.value !== ChainId.Rinkeby) {
+      alert('please change Network to Rinkeby !!!');
+      disconnect();
+    }
   });
 
   watch(selectedChainId, async(val, oldVal) => {
@@ -99,6 +106,7 @@ const useWeb3Store = defineStore('Web3Store', () => {
     mintPerPrice,
     active: isActivated,
     account: address,
+    HexDogeContract,
     // library,
   };
 });
