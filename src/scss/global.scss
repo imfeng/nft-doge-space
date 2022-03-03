@@ -437,3 +437,16 @@ $offset: 100px;
   //    80% { opacity:1; transform: translateX(-$offsetMiddle); }
   //   100% { opacity:0; transform: translateX(-$offset); }
 }
+
+.refresh-box {
+  text-align: right;
+  .btn-refresh {
+        background: url('~@/assets/images/refresh.png') no-repeat center center;
+        background-size: contain;
+        width: 30px;
+        height: 30px;
+    cursor: pointer;
+    display: inline-block;
+    background-color: transparent;
+  }
+}

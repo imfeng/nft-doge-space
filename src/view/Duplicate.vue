@@ -223,18 +223,7 @@ function getRandomFromArray(arr: any[]) {
 .section-duplicate {
       background: url('~@/assets/images/planet_universe_galaxy_stars_flash_59622_1920x1080.jpg') no-repeat center center;
       background-size: cover;
-.refresh-box {
-  text-align: right;
-  .btn-refresh {
-        background: url('~@/assets/images/refresh.png') no-repeat center center;
-        background-size: contain;
-        width: 30px;
-        height: 30px;
-    cursor: pointer;
-    display: inline-block;
-    background-color: transparent;
-  }
-}
+
     .content {
 
         p {

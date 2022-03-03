@@ -29,6 +29,17 @@
                     </div>
                 </div>
                 <div class="wrapper wrapper-right ">
+                    <div class="refresh-box">
+                        <button
+                            v-on:click="refresh"
+                            class="btn-refresh"
+                            v-bind:class="{
+                                isRefreshing: isRefreshing
+                            }"
+                        >
+
+                        </button>
+                    </div>
                     <div class="demo-box">
                         <div class="nft-box">
                             <img
@@ -112,6 +123,7 @@ const {
   isBroken,
   refresh,
   state,
+  isRefreshing,
 } = HexStore;
 const {
   connectWallet,
