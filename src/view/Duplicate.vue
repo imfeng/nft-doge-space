@@ -126,7 +126,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { ref, computed, watch } from 'vue';
 import { Countdown } from 'vue3-flip-countdown';
 import { HexStore, HexNftType } from '../composable/useHex';
 import { web3ErrorToMsg } from '@/ethers';
@@ -147,6 +147,20 @@ const {
   account,
   HexDogeContract,
 } = Web3Store;
+const doDuplicateDone = () => {
+  if (currentNft.value) {
+    currentNft.value.status = 'dupicate_done';
+  }
+};
+watch(currentNft, () => {
+  if (currentNft.value) {
+    if (currentNft.value.DuplicateDoneDate && new Date().getTime() >= currentNft.value.DuplicateDoneDate.getTime()) {
+      setTimeout(() => {
+        doDuplicateDone();
+      }, 2000);
+    }
+  }
+});
 
 const doClaimAll = async() => {
   if (currentNft.value) {
