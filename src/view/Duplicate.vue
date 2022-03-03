@@ -164,7 +164,8 @@ const doDuplicateDone = () => {
     currentNft.value.status = 'dupicate_done';
   }
 };
-watch(currentNft, () => {
+watch(currentNft, (newVal, oldVal) => {
+  if (newVal?.id === oldVal?.id) return;
   if (currentNft.value) {
     if (isDuplicating.value && currentNft.value.DuplicateDoneDate && new Date().getTime() >= currentNft.value.DuplicateDoneDate.getTime()) {
       setTimeout(() => {
@@ -181,10 +182,13 @@ const doClaimAll = async() => {
       await HexDogeContract.value?.doClaimAll(currentNft.value.id.toString());
       setTimeout(() => {
         refresh();
-      }, 5000);
+      }, 6000);
       setTimeout(() => {
         setLoading(false);
       }, 8000);
+      setTimeout(() => {
+        refresh();
+      }, 10000);
     } catch (error) {
       setLoading(false);
       alert(web3ErrorToMsg(error));
@@ -197,13 +201,13 @@ const doDuplicate = async() => {
       setLoading(true);
       await HexDogeContract.value?.doDuplicate(currentNft.value.id.toString());
       currentNft.value.status = 'duplicating';
-      currentNft.value.DuplicateDoneDate = new Date(Date.now() + currentNft.value.DuplicateDuration * 1000);
+      currentNft.value.DuplicateDoneDate = new Date(Date.now() + currentNft.value.DuplicateDuration * 1300);
       setTimeout(() => {
         setLoading(false);
-      }, 2000);
+      }, 3000);
       setTimeout(() => {
         refresh();
-      }, currentNft.value.DuplicateDuration * 1000);
+      }, currentNft.value.DuplicateDuration * 1300);
     } catch (error) {
       setLoading(false);
       alert(web3ErrorToMsg(error));

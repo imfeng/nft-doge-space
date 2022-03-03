@@ -71,8 +71,9 @@
                     <div
                         v-else
                         class="active info-box"
+                        v-on:click="doMint"
                     >
-                        <button class="pluto-button connect-button" v-on:click="doMint">
+                        <button class="pluto-button connect-button">
                             MINT
                         </button>
                     </div>

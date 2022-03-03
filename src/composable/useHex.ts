@@ -58,7 +58,8 @@ function useHex() {
   const getNormals = async() => {
     let cnt = 0;
     if (HexDogeContract.value) {
-      const id = (await HexDogeContract.value?.CURRENT_NORMAL_ID()) as any;
+      let id = (await HexDogeContract.value?.CURRENT_NORMAL_ID()) as any;
+      id = parseInt(id);
       for (let tokenId = 1000; tokenId <= id; tokenId++) {
         const addr: any = await HexDogeContract.value.token2ownerMap(tokenId.toString());
         if (addr === account.value) {
@@ -77,7 +78,8 @@ function useHex() {
       if (HexDogeContract.value) {
         console.log('GO');
 
-        const id = (await HexDogeContract.value.CURRENT_GENESIS_ID()) as any;
+        let id = (await HexDogeContract.value.CURRENT_GENESIS_ID()) as any;
+        id = parseInt(id);
         state.CURRENT_GENESIS_ID = id;
 
         const arr: string[] = [];
@@ -179,6 +181,10 @@ function useHex() {
       currentNft.value = item;
     }
   });
+
+  setInterval(() => {
+    refresh();
+  }, 200000);
 
   return {
     state,

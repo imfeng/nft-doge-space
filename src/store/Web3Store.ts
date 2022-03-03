@@ -7,7 +7,7 @@ import { i18n } from '@/locales/i18n';
 import { defineStore } from '@/store/store';
 const ABI = require('@/ethers/abi.json');
 //
-const contractAddress = '0x56a1c0E645B90671ae088293a7629430d89330fC';
+const contractAddress = '0xa1ed1111175CC2662a171A26B103e7EA390ce816';
 
 const useWeb3Store = defineStore('Web3Store', () => {
   const { open, } = useBoard();

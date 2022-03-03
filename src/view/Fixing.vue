@@ -139,14 +139,6 @@ const doFixingDone = () => {
 
 const doFixing = async() => {
   if (currentNft.value) {
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      doFixingDone();
-    }, 1000);
-    // currentNft.value.deadlineDate = new Date(Date.now() + currentNft.value.DuplicateDuration * 1000);
-  }
-  if (currentNft.value) {
     try {
       setLoading(true);
       await HexDogeContract.value?.doFixing(currentNft.value.id.toString());
@@ -155,8 +147,11 @@ const doFixing = async() => {
       }, 5000);
       setTimeout(() => {
         setLoading(false);
-        doFixingDone();
+        // doFixingDone();
       }, 8000);
+      setTimeout(() => {
+        refresh();
+      }, 10000);
     } catch (error) {
       setLoading(false);
       alert(web3ErrorToMsg(error));
